@@ -13,7 +13,7 @@ namespace WCF_Serv
     {
         [OperationContract]
         string GetData(int value);
-
+        
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 

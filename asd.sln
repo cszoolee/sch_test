@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportEntities", "SportEntit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{6854E3EE-4E3C-4643-85D3-BA7232A877C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHLService", "WCF Serv\NHLService.csproj", "{EE63BC64-D2BA-4EAB-94B1-DB2559A82B31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6854E3EE-4E3C-4643-85D3-BA7232A877C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6854E3EE-4E3C-4643-85D3-BA7232A877C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6854E3EE-4E3C-4643-85D3-BA7232A877C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE63BC64-D2BA-4EAB-94B1-DB2559A82B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE63BC64-D2BA-4EAB-94B1-DB2559A82B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE63BC64-D2BA-4EAB-94B1-DB2559A82B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE63BC64-D2BA-4EAB-94B1-DB2559A82B31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
