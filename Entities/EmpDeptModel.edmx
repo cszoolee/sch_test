@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EmpDeptModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="EmpDeptModelStoreContainer">
+          <EntitySet Name="CITY" EntityType="EmpDeptModel.Store.CITY" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DEPT" EntityType="EmpDeptModel.Store.DEPT" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EMP" EntityType="EmpDeptModel.Store.EMP" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EVERYTHING" EntityType="EmpDeptModel.Store.EVERYTHING" store:Type="Views" store:Schema="dbo" store:Name="EVERYTHING">
+            <DefiningQuery>SELECT 
+      [EVERYTHING].[EMPNO] AS [EMPNO], 
+      [EVERYTHING].[ENAME] AS [ENAME], 
+      [EVERYTHING].[JOB] AS [JOB], 
+      [EVERYTHING].[MGR] AS [MGR], 
+      [EVERYTHING].[HIREDATE] AS [HIREDATE], 
+      [EVERYTHING].[SAL] AS [SAL], 
+      [EVERYTHING].[COMM] AS [COMM], 
+      [EVERYTHING].[DEPTNO] AS [DEPTNO], 
+      [EVERYTHING].[dname] AS [dname], 
+      [EVERYTHING].[loc] AS [loc]
+      FROM [dbo].[EVERYTHING] AS [EVERYTHING]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="DEPT_FOREIGN_KEY" Association="EmpDeptModel.Store.DEPT_FOREIGN_KEY">
+            <End Role="CITY" EntitySet="CITY" />
+            <End Role="DEPT" EntitySet="DEPT" />
+          </AssociationSet>
+          <AssociationSet Name="EMP_BOSS_KEY" Association="EmpDeptModel.Store.EMP_BOSS_KEY">
+            <End Role="EMP" EntitySet="EMP" />
+            <End Role="EMP1" EntitySet="EMP" />
+          </AssociationSet>
+          <AssociationSet Name="EMP_FOREIGN_KEY" Association="EmpDeptModel.Store.EMP_FOREIGN_KEY">
+            <End Role="DEPT" EntitySet="DEPT" />
+            <End Role="EMP" EntitySet="EMP" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CITY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="DEPT">
+          <Key>
+            <PropertyRef Name="DEPTNO" />
+          </Key>
+          <Property Name="DEPTNO" Type="numeric" Nullable="false" Precision="2" />
+          <Property Name="DNAME" Type="varchar" MaxLength="14" />
+          <Property Name="LOC" Type="int" />
+        </EntityType>
+        <EntityType Name="EMP">
+          <Key>
+            <PropertyRef Name="EMPNO" />
+          </Key>
+          <Property Name="EMPNO" Type="numeric" Nullable="false" Precision="4" />
+          <Property Name="ENAME" Type="varchar" MaxLength="10" />
+          <Property Name="JOB" Type="varchar" MaxLength="9" />
+          <Property Name="MGR" Type="numeric" Precision="4" />
+          <Property Name="HIREDATE" Type="datetime" />
+          <Property Name="SAL" Type="numeric" Precision="7" Scale="2" />
+          <Property Name="COMM" Type="numeric" Precision="7" Scale="2" />
+          <Property Name="DEPTNO" Type="numeric" Nullable="false" Precision="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\ANON\MUNKA\ACTUAL\TANFOLYAMOK\SCH\ACTUAL\LESSON1_DB\ENTITIES\EMPDEPT.MDF.dbo.EVERYTHING' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="EVERYTHING">
+          <Key>
+            <PropertyRef Name="EMPNO" />
+            <PropertyRef Name="DEPTNO" />
+          </Key>
+          <Property Name="EMPNO" Type="numeric" Nullable="false" Precision="4" />
+          <Property Name="ENAME" Type="varchar" MaxLength="10" />
+          <Property Name="JOB" Type="varchar" MaxLength="9" />
+          <Property Name="MGR" Type="numeric" Precision="4" />
+          <Property Name="HIREDATE" Type="datetime" />
+          <Property Name="SAL" Type="numeric" Precision="7" Scale="2" />
+          <Property Name="COMM" Type="numeric" Precision="7" Scale="2" />
+          <Property Name="DEPTNO" Type="numeric" Nullable="false" Precision="2" />
+          <Property Name="dname" Type="varchar" MaxLength="14" />
+          <Property Name="loc" Type="int" />
+        </EntityType>
+        <Association Name="DEPT_FOREIGN_KEY">
+          <End Role="CITY" Type="EmpDeptModel.Store.CITY" Multiplicity="0..1" />
+          <End Role="DEPT" Type="EmpDeptModel.Store.DEPT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CITY">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DEPT">
+              <PropertyRef Name="LOC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMP_BOSS_KEY">
+          <End Role="EMP" Type="EmpDeptModel.Store.EMP" Multiplicity="0..1" />
+          <End Role="EMP1" Type="EmpDeptModel.Store.EMP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMP">
+              <PropertyRef Name="EMPNO" />
+            </Principal>
+            <Dependent Role="EMP1">
+              <PropertyRef Name="MGR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMP_FOREIGN_KEY">
+          <End Role="DEPT" Type="EmpDeptModel.Store.DEPT" Multiplicity="1" />
+          <End Role="EMP" Type="EmpDeptModel.Store.EMP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPT">
+              <PropertyRef Name="DEPTNO" />
+            </Principal>
+            <Dependent Role="EMP">
+              <PropertyRef Name="DEPTNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GETEMP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empno" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="EMPNO" Type="numeric" Nullable="false" Precision="4" />
+                <Property Name="ENAME" Type="varchar" MaxLength="10" />
+                <Property Name="JOB" Type="varchar" MaxLength="9" />
+                <Property Name="MGR" Type="numeric" Precision="4" />
+                <Property Name="HIREDATE" Type="datetime" />
+                <Property Name="SAL" Type="numeric" Precision="7" Scale="2" />
+                <Property Name="COMM" Type="numeric" Precision="7" Scale="2" />
+                <Property Name="DEPTNO" Type="numeric" Nullable="false" Precision="2" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GETNAME" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="InOut" />
+        </Function>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EmpDeptModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EmpDeptEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="CITY" EntityType="EmpDeptModel.CITY" />
+          <EntitySet Name="DEPT" EntityType="EmpDeptModel.DEPT" />
+          <EntitySet Name="EMP" EntityType="EmpDeptModel.EMP" />
+          <EntitySet Name="EVERYTHING" EntityType="EmpDeptModel.EVERYTHING" />
+          <AssociationSet Name="DEPT_FOREIGN_KEY" Association="EmpDeptModel.DEPT_FOREIGN_KEY">
+            <End Role="CITY" EntitySet="CITY" />
+            <End Role="DEPT" EntitySet="DEPT" />
+          </AssociationSet>
+          <AssociationSet Name="EMP_FOREIGN_KEY" Association="EmpDeptModel.EMP_FOREIGN_KEY">
+            <End Role="DEPT" EntitySet="DEPT" />
+            <End Role="EMP" EntitySet="EMP" />
+          </AssociationSet>
+          <AssociationSet Name="EMP_BOSS_KEY" Association="EmpDeptModel.EMP_BOSS_KEY">
+            <End Role="EMP" EntitySet="EMP" />
+            <End Role="EMP1" EntitySet="EMP" />
+          </AssociationSet>
+          <FunctionImport Name="GETEMP" ReturnType="Collection(EmpDeptModel.GETEMP_Result)" IsComposable="true">
+            <Parameter Name="empno" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GETNAME">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GETEMP_Result">
+          <Property Name="EMPNO" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="ENAME" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="JOB" Type="String" MaxLength="9" Unicode="false" FixedLength="false" />
+          <Property Name="MGR" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="HIREDATE" Type="DateTime" />
+          <Property Name="SAL" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="COMM" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="DEPTNO" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+        </ComplexType>
+        <EntityType Name="CITY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="DEPT" Relationship="EmpDeptModel.DEPT_FOREIGN_KEY" FromRole="CITY" ToRole="DEPT" />
+        </EntityType>
+        <EntityType Name="DEPT">
+          <Key>
+            <PropertyRef Name="DEPTNO" />
+          </Key>
+          <Property Name="DEPTNO" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="DNAME" Type="String" MaxLength="14" Unicode="false" FixedLength="false" />
+          <Property Name="LOC" Type="Int32" />
+          <NavigationProperty Name="CITY" Relationship="EmpDeptModel.DEPT_FOREIGN_KEY" FromRole="DEPT" ToRole="CITY" />
+          <NavigationProperty Name="EMP" Relationship="EmpDeptModel.EMP_FOREIGN_KEY" FromRole="DEPT" ToRole="EMP" />
+        </EntityType>
+        <EntityType Name="EMP">
+          <Key>
+            <PropertyRef Name="EMPNO" />
+          </Key>
+          <Property Name="EMPNO" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="ENAME" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="JOB" Type="String" MaxLength="9" Unicode="false" FixedLength="false" />
+          <Property Name="MGR" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="HIREDATE" Type="DateTime" Precision="3" />
+          <Property Name="SAL" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="COMM" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="DEPTNO" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <NavigationProperty Name="DEPT" Relationship="EmpDeptModel.EMP_FOREIGN_KEY" FromRole="EMP" ToRole="DEPT" />
+          <NavigationProperty Name="EMP1" Relationship="EmpDeptModel.EMP_BOSS_KEY" FromRole="EMP" ToRole="EMP1" />
+          <NavigationProperty Name="EMP2" Relationship="EmpDeptModel.EMP_BOSS_KEY" FromRole="EMP1" ToRole="EMP" />
+        </EntityType>
+        <EntityType Name="EVERYTHING">
+          <Key>
+            <PropertyRef Name="EMPNO" />
+            <PropertyRef Name="DEPTNO" />
+          </Key>
+          <Property Name="EMPNO" Type="Decimal" Nullable="false" Precision="4" Scale="0" />
+          <Property Name="ENAME" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="JOB" Type="String" MaxLength="9" Unicode="false" FixedLength="false" />
+          <Property Name="MGR" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="HIREDATE" Type="DateTime" Precision="3" />
+          <Property Name="SAL" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="COMM" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="DEPTNO" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="dname" Type="String" MaxLength="14" Unicode="false" FixedLength="false" />
+          <Property Name="loc" Type="Int32" />
+        </EntityType>
+        <Association Name="DEPT_FOREIGN_KEY">
+          <End Role="CITY" Type="EmpDeptModel.CITY" Multiplicity="0..1" />
+          <End Role="DEPT" Type="EmpDeptModel.DEPT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CITY">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DEPT">
+              <PropertyRef Name="LOC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMP_FOREIGN_KEY">
+          <End Role="DEPT" Type="EmpDeptModel.DEPT" Multiplicity="1" />
+          <End Role="EMP" Type="EmpDeptModel.EMP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPT">
+              <PropertyRef Name="DEPTNO" />
+            </Principal>
+            <Dependent Role="EMP">
+              <PropertyRef Name="DEPTNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMP_BOSS_KEY">
+          <End Role="EMP" Type="EmpDeptModel.EMP" Multiplicity="0..1" />
+          <End Role="EMP1" Type="EmpDeptModel.EMP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMP">
+              <PropertyRef Name="EMPNO" />
+            </Principal>
+            <Dependent Role="EMP1">
+              <PropertyRef Name="MGR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EmpDeptModelStoreContainer" CdmEntityContainer="EmpDeptEntities">
+          <EntitySetMapping Name="CITY">
+            <EntityTypeMapping TypeName="EmpDeptModel.CITY">
+              <MappingFragment StoreEntitySet="CITY">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DEPT">
+            <EntityTypeMapping TypeName="EmpDeptModel.DEPT">
+              <MappingFragment StoreEntitySet="DEPT">
+                <ScalarProperty Name="DEPTNO" ColumnName="DEPTNO" />
+                <ScalarProperty Name="DNAME" ColumnName="DNAME" />
+                <ScalarProperty Name="LOC" ColumnName="LOC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMP">
+            <EntityTypeMapping TypeName="EmpDeptModel.EMP">
+              <MappingFragment StoreEntitySet="EMP">
+                <ScalarProperty Name="EMPNO" ColumnName="EMPNO" />
+                <ScalarProperty Name="ENAME" ColumnName="ENAME" />
+                <ScalarProperty Name="JOB" ColumnName="JOB" />
+                <ScalarProperty Name="MGR" ColumnName="MGR" />
+                <ScalarProperty Name="HIREDATE" ColumnName="HIREDATE" />
+                <ScalarProperty Name="SAL" ColumnName="SAL" />
+                <ScalarProperty Name="COMM" ColumnName="COMM" />
+                <ScalarProperty Name="DEPTNO" ColumnName="DEPTNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EVERYTHING">
+            <EntityTypeMapping TypeName="EmpDeptModel.EVERYTHING">
+              <MappingFragment StoreEntitySet="EVERYTHING">
+                <ScalarProperty Name="EMPNO" ColumnName="EMPNO" />
+                <ScalarProperty Name="ENAME" ColumnName="ENAME" />
+                <ScalarProperty Name="JOB" ColumnName="JOB" />
+                <ScalarProperty Name="MGR" ColumnName="MGR" />
+                <ScalarProperty Name="HIREDATE" ColumnName="HIREDATE" />
+                <ScalarProperty Name="SAL" ColumnName="SAL" />
+                <ScalarProperty Name="COMM" ColumnName="COMM" />
+                <ScalarProperty Name="DEPTNO" ColumnName="DEPTNO" />
+                <ScalarProperty Name="dname" ColumnName="dname" />
+                <ScalarProperty Name="loc" ColumnName="loc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="EmpDeptModel.Store.GETEMP" FunctionImportName="GETEMP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EmpDeptModel.GETEMP_Result">
+                <ScalarProperty Name="EMPNO" ColumnName="EMPNO" />
+                <ScalarProperty Name="ENAME" ColumnName="ENAME" />
+                <ScalarProperty Name="JOB" ColumnName="JOB" />
+                <ScalarProperty Name="MGR" ColumnName="MGR" />
+                <ScalarProperty Name="HIREDATE" ColumnName="HIREDATE" />
+                <ScalarProperty Name="SAL" ColumnName="SAL" />
+                <ScalarProperty Name="COMM" ColumnName="COMM" />
+                <ScalarProperty Name="DEPTNO" ColumnName="DEPTNO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GETNAME" FunctionName="EmpDeptModel.Store.GETNAME" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
